@@ -18,9 +18,9 @@ function App() {
     <Provider store={store}>
       <SafeAreaView style={tw`flex-1 bg-yellow-100`}>
       <TextInput
-        style={tw`max-w-full h-screen mt-4 text-left text-xl  border border-gray-500 p-3`}
+        style={tw`max-w-full flex-1 mt-4 text-left text-xl  border border-gray-500 p-3`}
         multiline
-        numberOfLines={8}
+        placeholder="Type your notes here..."
       />
       </SafeAreaView>
     </Provider>
