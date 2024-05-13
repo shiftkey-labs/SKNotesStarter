@@ -1,20 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, Text } from 'react-native';
+import tw, { useDeviceContext } from 'twrnc';
+import { Provider } from 'react-redux';
+import { store } from './store';
+import 'react-native-reanimated'; 
 
-export default function App() {
+function App() {
+  useDeviceContext(tw);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <Provider store={store}>
+      <SafeAreaView>
+        <Text style={tw`w-screen mt-16 text-center text-xl`}>
+          Your app code goes here.
+        </Text>
+      </SafeAreaView>
+    </Provider>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
