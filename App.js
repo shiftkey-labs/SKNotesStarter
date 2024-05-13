@@ -1,8 +1,8 @@
-import { SafeAreaView, Text } from 'react-native';
-import tw, { useDeviceContext } from 'twrnc';
-import { Provider } from 'react-redux';
-import { store } from './store';
-import 'react-native-reanimated'; 
+import { SafeAreaView, Text } from "react-native";
+import tw, { useDeviceContext } from "twrnc";
+import { Provider } from "react-redux";
+import { store } from "./store";
+import "react-native-reanimated";
 
 function App() {
   useDeviceContext(tw);
@@ -15,7 +15,7 @@ function App() {
         </Text>
       </SafeAreaView>
     </Provider>
-  )
+  );
 }
 
 export default App;
