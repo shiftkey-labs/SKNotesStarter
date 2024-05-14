@@ -1,4 +1,4 @@
-import { SafeAreaView, Text } from "react-native";
+import { SafeAreaView, Text, Image } from "react-native";
 import tw, { useDeviceContext } from "twrnc";
 import { Provider } from "react-redux";
 import { store } from "./store";
@@ -9,10 +9,11 @@ function App() {
 
   return (
     <Provider store={store}>
-      <SafeAreaView>
-        <Text style={tw`w-screen mt-16 text-center text-xl`}>
-          Your app code goes here.
-        </Text>
+      <SafeAreaView
+        style={tw`w-full h-screen bg-black flex items-center justify-center`}
+      >
+        <Image source={require("./assets/tesseract.gif")} style={tw`mb-8`} />
+        <Text style={tw`text-center text-white text-2xl`}>4D Hypercube</Text>
       </SafeAreaView>
     </Provider>
   );
