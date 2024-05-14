@@ -6,31 +6,32 @@ import 'react-native-reanimated';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import { useAddNoteMutation, useFetchNotesQuery, useClearNotesMutation } from './db';
 import React, { useState, useEffect } from 'react';
 
 
-function HomeScreen({ navigation }) {
-  return (
-    <View style={tw`flex-1 items-center justify-center`}>
-      <Text style={tw`text-lg mb-4`}>Home Screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
-    </View>
-  );
-}
+// function HomeScreen({ navigation }) {
+//   return (
+//     <View style={tw`flex-1 items-center justify-center`}>
+//       <Text style={tw`text-lg mb-4`}>Home Screen</Text>
+//       <Button
+//         title="Go to Details"
+//         onPress={() => navigation.navigate('Details')}
+//       />
+//     </View>
+//   );
+// }
 
-function DetailsScreen() {
-  return (
-    <View style={tw`flex-1 items-center justify-center`}>
-      <Text style={tw`text-lg`}>Details Screen</Text>
-    </View>
-  );
-}
+// function DetailsScreen() {
+//   return (
+//     <View style={tw`flex-1 items-center justify-center`}>
+//       <Text style={tw`text-lg`}>Details Screen</Text>
+//     </View>
+//   );
+// }
 
-const Stack = createNativeStackNavigator();
+
+// const Stack = createNativeStackNavigator();
 
 function App() {
 
@@ -42,37 +43,39 @@ function App() {
   */
 
   useDeviceContext(tw);
-  // const [data, setData] = useState([]);
-  // const generateData = (count) => Array.from({ length: count }, (_, i) => ({ id: (i + 1).toString() }));
+  const [data, setData] = useState([]);
+  const generateData = (count) => Array.from({ length: count }, (_, i) => ({ id: (i + 1).toString() }));
 
-  // useEffect(() => {
-  //   setData(generateData(500));
-  // }, []);
+  useEffect(() => {
+    setData(generateData(500));
+  }, []);
 
-  // const renderItem=({item, i}) => (
-  //   <Text style={[tw`bg-blue-200 text-gray-500 m-1`, { height: Math.floor(Math.random() * 100) + 50 }]}>
-  //     {item.id}
-  //   </Text>
-  // )
+  const renderItem=({item, i}) => (
+    <Text style={[tw`bg-blue-300 text-gray-500 m-1`, { height: Math.floor(Math.random() * 100) + 50 }]}>
+      {item.id}
+    </Text>
+  )
+
   return (
     <Provider store={store}>
       <SafeAreaView style={tw`flex-1 bg-yellow-100`}>
       {/* <TextInput
           style={tw`max-w-full mt-4 text-left text-xl border border-gray-500 p-3`}
           placeholder="Search..."
-        />
+        /> */}
         <TextInput
           style={tw`max-w-full flex-1 mt-4 text-left text-xl border border-gray-500 p-3`}
           multiline
           placeholder="Type your notes here..."
-        /> */}
-        <NavigationContainer>
+          
+        />
+        {/* <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} />
       </Stack.Navigator>
-    </NavigationContainer>
-         {/* <MasonryList 
+    </NavigationContainer> */}
+         <MasonryList 
       style={tw`w-full h-screen`}
       data={data}
       keyExtractor={(item) => item.id}
@@ -80,7 +83,7 @@ function App() {
       showsVerticalScrollIndicator={false}
       renderItem={renderItem}
       onEndReachedThreshold={0.1}
-    /> */}
+    />
       </SafeAreaView>
     </Provider>
   )
