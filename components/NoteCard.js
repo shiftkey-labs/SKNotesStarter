@@ -1,5 +1,5 @@
-import { View, Text, Image } from "react-native";
 import tw, { useDeviceContext } from "twrnc";
+import { Image, Text, View } from "react-native";
 
 const Card = ({ item }) => {
   useDeviceContext(tw);
