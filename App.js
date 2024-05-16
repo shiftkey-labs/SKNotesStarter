@@ -11,7 +11,7 @@ const Note = ({item}) => {
   </View>
 }
 
-const generateData = (count) => Array.from({length : count}, (_, i) => ({id : "Lorem ipsum dolor sit amet " + i.toString()}));
+const generateData = (count) => Array.from({length : count}, (_, i) => ({id : " Lorem ipsum dolor sit amet " + i.toString()}));
 const data = generateData(20);
 
 function App() {
