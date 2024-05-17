@@ -17,8 +17,8 @@ function App() {
     <Provider store={store}>
       <SafeAreaView style={tw`w-full h-screen`}>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen name="Home" component={Home} />
+          <Stack.Navigator initialRouteName="Notes">
+            <Stack.Screen name="Notes" component={Home} />
             <Stack.Screen name="Note" component={Note} />
           </Stack.Navigator>
         </NavigationContainer>

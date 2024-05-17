@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import tw from "twrnc";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import MasonryList from "@react-native-seoul/masonry-list";
 import Card from "./NoteCard";
 
@@ -26,7 +26,6 @@ function Home({ navigation }) {
 
   return (
     <View style={tw`flex items-center justify-center`}>
-      <Text style={tw`text-center text-3xl`}>4D Hypercubes</Text>
       <MasonryList
         style={tw`w-full h-screen`}
         data={data}

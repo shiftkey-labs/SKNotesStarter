@@ -3,15 +3,16 @@ import { View, Text } from "react-native";
 import tw from "twrnc";
 
 function Note({ navigation, route }) {
-  const { note } = route.params;
+  const { data } = route.params;
 
   useEffect(() => {
-    navigation.setOptions({ title: note.title });
+    navigation.setOptions({ title: "Notes" });
   });
 
   return (
     <View style={tw``}>
-      <Text style={tw`text-lg`}>{note.content}</Text>
+      <Text style={tw`text-lg font-bold`}>{data.title}</Text>
+      <Text style={tw`text-lg`}>{data.content}</Text>
     </View>
   );
 }
