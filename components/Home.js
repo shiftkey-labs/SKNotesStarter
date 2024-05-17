@@ -1,22 +1,28 @@
 import { useEffect, useState } from "react";
-import tw, { useDeviceContext } from "twrnc";
+import tw from "twrnc";
 import { Text, View } from "react-native";
 import MasonryList from "@react-native-seoul/masonry-list";
 import Card from "./NoteCard";
 
 const generateData = (count) =>
-  Array.from({ length: count }, (_, i) => ({ id: (i + 1).toString() }));
+  Array.from({ length: count }, (_, i) => ({
+    id: `${i + 1}`,
+    title: `Note ${i + 1}`,
+    content: `These are the contents of Note ${
+      i + 1
+    }. There isn't much here for now, but we'll get there eventually.`,
+  }));
 
-function Home() {
-  useDeviceContext(tw);
-
+function Home({ navigation }) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     setData(generateData(16));
   }, []);
 
-  const renderItem = ({ item, i }) => <Card item={item} />;
+  const renderItem = ({ item, i }) => (
+    <Card note={item} navigation={navigation} />
+  );
 
   return (
     <View style={tw`flex items-center justify-center`}>
