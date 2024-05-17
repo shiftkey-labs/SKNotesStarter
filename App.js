@@ -1,3 +1,4 @@
+import { NavigationContainer } from '@react-navigation/native';
 import { FlatList, SafeAreaView, Text, View } from 'react-native';
 import 'react-native-reanimated';
 import { Provider } from 'react-redux';
@@ -6,29 +7,41 @@ import { store } from './store';
 
 //This is the note object. Can be added dynamically
 const Note = ({item}) => {
-  <View style = {[tw`w-full h-12 mb-1 mr-1 rounded-lg p-4 bg-purple-400`]}>
-    <Text>{item.id}</Text>
-  </View>
+  return (
+    <View style = {[tw`w-1/3 aspect-square mb-1 mr-1 rounded-lg bg-purple-400`]}>
+      <Text>{item.note}</Text>
+    </View>
+  )
 }
 
-const generateData = (count) => Array.from({length : count}, (_, i) => ({id : " Lorem ipsum dolor sit amet " + i.toString()}));
+const generateData = (count) => Array.from({length : count}, (_, i) => ({id : (i + 1).toString(), note : "Lorem ipsum dolor sit amet"}));
 const data = generateData(20);
+
+const Stack = createNativeStackNavigator();
+
+function HomeScreen({navigation}){
+  return(
+    <FlatList
+            data = {data}
+            keyExtractor = {(item) => item.id}
+            renderItem = {({item}) => <Note item={item}/>}
+            numColumns = {3}
+            contentContainerStyle={tw`p-4`}
+    />
+  )
+}
 
 function App() {
   useDeviceContext(tw);
-
-  
-
   return (
     <Provider store={store}>
       <SafeAreaView>
-        <FlatList
-          data = {data}
-          keyExtractor = {(item) => item.id}
-          renderItem = {({item}) => <Note item={item}/>}
-          numColumns = {1}
-          contentContainerStyle={tw`p-4`}
-        />
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen name="Home" component={HomeScreen}/>
+            <Stack.Screen name="Details" component={DetailsScreen}/>
+          </Stack.Navigator>
+        </NavigationContainer>
       </SafeAreaView>
     </Provider>
   )
