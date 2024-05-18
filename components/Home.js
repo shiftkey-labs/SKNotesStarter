@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import tw from "twrnc";
-import { Button, View } from "react-native";
+import { Button, View, TextInput } from "react-native";
 import MasonryList from "@react-native-seoul/masonry-list";
 import Card from "./NoteCard";
 
@@ -26,6 +26,12 @@ function Home({ navigation }) {
 
   return (
     <View style={tw`w-full h-screen bg-gray-800`}>
+      <View style={tw`p-1.5 bg-gray-900`}>
+        <TextInput
+          style={tw`text-white h-10 px-2 bg-gray-700 rounded-lg`}
+          placeholder="Search"
+        />
+      </View>
       <MasonryList
         style={tw`w-full h-screen bg-gray-800`}
         data={data}
