@@ -26,12 +26,14 @@ function Home({ navigation }) {
 
   return (
     <View style={tw`w-full h-screen bg-gray-800`}>
+      {/* Search Bar */}
       <View style={tw`p-1.5 bg-gray-900`}>
         <TextInput
           style={tw`text-white h-10 px-2 bg-gray-700 rounded-lg`}
           placeholder="Search"
         />
       </View>
+      {/* Notes Grid */}
       <MasonryList
         style={tw`w-full h-screen bg-gray-800`}
         data={data}
@@ -41,6 +43,7 @@ function Home({ navigation }) {
         renderItem={renderItem}
         onEndReachedThreshold={0.1}
       />
+      {/* Add Note Button */}
       <Button
         title="+"
         onPress={() => navigation.navigate("Note")}
