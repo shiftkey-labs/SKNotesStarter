@@ -25,7 +25,7 @@ function Home({ navigation }) {
   );
 
   return (
-    <View style={tw`flex items-center justify-center`}>
+    <View style={tw`w-full h-screen bg-gray-800`}>
       <MasonryList
         style={tw`w-full h-screen`}
         data={data}
