@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import tw from "twrnc";
-import { View } from "react-native";
+import { Button, View } from "react-native";
 import MasonryList from "@react-native-seoul/masonry-list";
 import Card from "./NoteCard";
 
@@ -27,13 +27,18 @@ function Home({ navigation }) {
   return (
     <View style={tw`w-full h-screen bg-gray-800`}>
       <MasonryList
-        style={tw`w-full h-screen`}
+        style={tw`w-full h-screen bg-gray-800`}
         data={data}
         keyExtractor={(item) => item.id}
         numColumns={2}
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}
         onEndReachedThreshold={0.1}
+      />
+      <Button
+        title="+"
+        onPress={() => navigation.navigate("Note")}
+        style={tw`absolute bottom-1 right-1 bg-blue-900`}
       />
     </View>
   );
