@@ -15,14 +15,14 @@ function App() {
 
   const navStyle = {
     headerStyle: tw`bg-gray-900 border-none border-0`,
-    headerTintColor: "#fff",
+    headerTintColor: "white",
     headerTitleStyle: tw`font-bold`,
     headerShadowVisible: false, // gets rid of border on device
   };
 
   return (
     <Provider store={store}>
-      <View style={tw`w-full h-screen bg-gray-900`}>
+      <View style={tw`w-full h-full bg-gray-900`}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Notes">
             <Stack.Screen options={navStyle} name="Notes" component={Home} />

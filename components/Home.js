@@ -25,17 +25,18 @@ function Home({ navigation }) {
   );
 
   return (
-    <View style={tw`w-full h-screen bg-gray-800`}>
+    <View style={tw`w-full h-full bg-gray-800`}>
       {/* Search Bar */}
       <View style={tw`p-1.5 bg-gray-900`}>
         <TextInput
-          style={tw`text-white h-10 px-2 bg-gray-700 rounded-lg`}
+          style={tw`h-10 px-2 bg-gray-700 text-white rounded-lg`}
+          placeholderTextColor="white"
           placeholder="Search"
         />
       </View>
       {/* Notes Grid */}
       <MasonryList
-        style={tw`w-full h-screen bg-gray-800`}
+        style={tw`w-full h-full bg-gray-800`}
         data={data}
         keyExtractor={(item) => item.id}
         numColumns={2}
@@ -46,8 +47,12 @@ function Home({ navigation }) {
       {/* Add Note Button */}
       <Button
         title="+"
-        onPress={() => navigation.navigate("Note")}
-        style={tw`absolute bottom-1 right-1 bg-blue-900`}
+        onPress={() =>
+          navigation.navigate("Note", {
+            data: { id: "0", title: "Test Title", content: "Test Content" },
+          })
+        }
+        style={tw`absolute bottom-1 right-1 bg-blue-400`}
       />
     </View>
   );

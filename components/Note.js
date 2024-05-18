@@ -8,16 +8,17 @@ function Note({ navigation, route }) {
   useEffect(() => navigation.setOptions({ title: "" }));
 
   return (
-    <View style={tw`w-screen h-screen bg-gray-900 p-2`}>
+    <View style={tw`w-full h-full bg-gray-900 p-2`}>
       <TextInput
         style={tw`text-white text-lg font-bold mb-4`}
         defaultValue={data.title}
         placeholder="Title"
       />
       <TextInput
-        style={tw`text-white text-lg`}
+        style={tw`text-white text-lg h-full`}
         defaultValue={data.content}
         placeholder="Type something..."
+        multiline={true}
       />
     </View>
   );
