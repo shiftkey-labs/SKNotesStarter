@@ -48,7 +48,7 @@ function Home({ navigation }) {
       <TouchableOpacity
         onPress={() =>
           navigation.navigate("Note", {
-            data: { id: "0", title: "Test Title", content: "Test Content" },
+            data: {},
           })
         }
         style={tw`absolute bottom-10 right-5 rounded-full bg-blue-500 py-3 px-4.75`}

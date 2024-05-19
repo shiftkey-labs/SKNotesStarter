@@ -11,13 +11,15 @@ function Note({ navigation, route }) {
     <View style={tw`w-full h-full bg-gray-900 p-2`}>
       <TextInput
         style={tw`text-white text-lg font-bold mb-4`}
-        defaultValue={data.title}
+        placeholderTextColor="gray"
         placeholder="Title"
+        defaultValue={data.title}
       />
       <TextInput
         style={tw`text-white text-lg h-full`}
-        defaultValue={data.content}
+        placeholderTextColor="gray"
         placeholder="Type something..."
+        defaultValue={data.content}
         multiline={true}
       />
     </View>
