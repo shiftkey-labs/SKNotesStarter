@@ -24,15 +24,15 @@ function App() {
     <Provider store={store}>
       <View style={tw`w-full h-full bg-gray-900`}>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home">
+          <Stack.Navigator initialRouteName="HomePage">
             <Stack.Screen
               options={navStyle}
-              name="Home"
+              name="HomePage"
               component={HomeScreen}
             />
             <Stack.Screen
               options={navStyle}
-              name="Note"
+              name="NotePage"
               component={NoteScreen}
             />
           </Stack.Navigator>

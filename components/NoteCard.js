@@ -5,7 +5,7 @@ const Card = ({ note, navigation }) => {
   return (
     <TouchableOpacity
       style={tw`m-0.5 rounded-lg p-2 bg-gray-700`}
-      onPress={() => navigation.navigate("Note", { data: note })}
+      onPress={() => navigation.navigate("NotePage", { data: note })}
     >
       <Text style={tw`text-white text-2xl mb-0.5`}>{note.title}</Text>
       <Text style={tw`text-white`}>{note.content}</Text>
