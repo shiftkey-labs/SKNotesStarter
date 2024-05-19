@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import tw from "twrnc";
-import { Button, View, TextInput } from "react-native";
+import { View, TextInput, TouchableOpacity, Text } from "react-native";
 import MasonryList from "@react-native-seoul/masonry-list";
 import Card from "./NoteCard";
 
@@ -45,15 +45,16 @@ function Home({ navigation }) {
         onEndReachedThreshold={0.1}
       />
       {/* Add Note Button */}
-      <Button
-        title="+"
+      <TouchableOpacity
         onPress={() =>
           navigation.navigate("Note", {
             data: { id: "0", title: "Test Title", content: "Test Content" },
           })
         }
-        style={tw`absolute bottom-1 right-1 bg-blue-400`}
-      />
+        style={tw`absolute bottom-10 right-5 rounded-full bg-blue-500 py-3 px-4.75`}
+      >
+        <Text style={tw`text-white text-4xl`}>+</Text>
+      </TouchableOpacity>
     </View>
   );
 }
