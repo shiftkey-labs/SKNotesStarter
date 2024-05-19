@@ -5,8 +5,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import tw, { useDeviceContext } from "twrnc";
 import { store } from "./store";
 import "react-native-reanimated";
-import Home from "./components/Home";
-import Note from "./components/Note";
+import HomeScreen from "./components/HomeScreen";
+import NoteScreen from "./components/NoteScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,9 +24,17 @@ function App() {
     <Provider store={store}>
       <View style={tw`w-full h-full bg-gray-900`}>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Notes">
-            <Stack.Screen options={navStyle} name="Notes" component={Home} />
-            <Stack.Screen options={navStyle} name="Note" component={Note} />
+          <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen
+              options={navStyle}
+              name="Home"
+              component={HomeScreen}
+            />
+            <Stack.Screen
+              options={navStyle}
+              name="Note"
+              component={NoteScreen}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </View>

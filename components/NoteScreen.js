@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { View, TextInput } from "react-native";
 import tw from "twrnc";
 
-function Note({ navigation, route }) {
+function NoteScreen({ navigation, route }) {
   const { data } = route.params;
 
   useEffect(() => navigation.setOptions({ title: "" }));
@@ -26,4 +26,4 @@ function Note({ navigation, route }) {
   );
 }
 
-export default Note;
+export default NoteScreen;

@@ -4,23 +4,33 @@ import { View, TextInput, TouchableOpacity, Text } from "react-native";
 import MasonryList from "@react-native-seoul/masonry-list";
 import Card from "./NoteCard";
 
-const generateData = (count) =>
-  Array.from({ length: count }, (_, i) => ({
-    id: `${i + 1}`,
-    title: `Note ${i + 1}`,
-    content: `These are the contents of Note ${
-      i + 1
-    }. There isn't much here for now, but we'll get there eventually.`,
-  }));
+class Note {
+  constructor(title, content) {
+    this.title = title;
+    this.content = content;
+  }
+}
 
-function Home({ navigation }) {
+const generateData = (count) =>
+  Array.from(
+    { length: count },
+    (_, i) =>
+      new Note(
+        `Note ${i + 1}`,
+        `These are the contents of Note ${
+          i + 1
+        }. There isn't much here for now, but we'll get there eventually.`
+      )
+  );
+
+function HomeScreen({ navigation }) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     setData(generateData(16));
   }, []);
 
-  const renderItem = ({ item, i }) => (
+  const renderItem = ({ item, idx }) => (
     <Card note={item} navigation={navigation} />
   );
 
@@ -38,7 +48,6 @@ function Home({ navigation }) {
       <MasonryList
         style={tw`w-full h-full bg-gray-800`}
         data={data}
-        keyExtractor={(item) => item.id}
         numColumns={2}
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}
@@ -46,12 +55,12 @@ function Home({ navigation }) {
       />
       {/* Add Note Button */}
       <TouchableOpacity
+        style={tw`absolute bottom-10 right-5 rounded-full bg-blue-500 py-3 px-4.75`}
         onPress={() =>
           navigation.navigate("Note", {
             data: {},
           })
         }
-        style={tw`absolute bottom-10 right-5 rounded-full bg-blue-500 py-3 px-4.75`}
       >
         <Text style={tw`text-white text-4xl`}>+</Text>
       </TouchableOpacity>
@@ -59,4 +68,4 @@ function Home({ navigation }) {
   );
 }
 
-export default Home;
+export default HomeScreen;
