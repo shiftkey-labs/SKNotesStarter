@@ -3,13 +3,7 @@ import tw from "twrnc";
 import { View, TextInput, TouchableOpacity, Text } from "react-native";
 import MasonryList from "@react-native-seoul/masonry-list";
 import Card from "./NoteCard";
-
-class Note {
-  constructor(title, content) {
-    this.title = title;
-    this.content = content;
-  }
-}
+import Note from "./Note";
 
 const generateData = (count) =>
   Array.from(
