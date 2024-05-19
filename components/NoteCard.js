@@ -1,7 +1,7 @@
 import tw from "twrnc";
 import { Text, TouchableOpacity } from "react-native";
 
-const Card = ({ note, navigation }) => {
+function Card({ note, navigation }) {
   return (
     <TouchableOpacity
       style={tw`m-0.5 rounded-lg p-2 bg-gray-700`}
@@ -11,6 +11,6 @@ const Card = ({ note, navigation }) => {
       <Text style={tw`text-white`}>{note.content}</Text>
     </TouchableOpacity>
   );
-};
+}
 
 export default Card;
