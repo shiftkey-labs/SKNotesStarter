@@ -1,37 +1,44 @@
-import { SafeAreaView, Text, TextInput, Button, View } from 'react-native';
+import { SafeAreaView, Text, TextInput, Button, View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import 'react-native-reanimated'; 
-import MasonryList from '@react-native-seoul/masonry-list';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useAddNoteMutation, useFetchNotesQuery, useClearNotesMutation } from './db';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 
-// function HomeScreen({ navigation }) {
-//   return (
-//     <View style={tw`flex-1 items-center justify-center`}>
-//       <Text style={tw`text-lg mb-4`}>Home Screen</Text>
-//       <Button
-//         title="Go to Details"
-//         onPress={() => navigation.navigate('Details')}
-//       />
-//     </View>
-//   );
-// }
-
-// function DetailsScreen() {
-//   return (
-//     <View style={tw`flex-1 items-center justify-center`}>
-//       <Text style={tw`text-lg`}>Details Screen</Text>
-//     </View>
-//   );
-// }
+function HomeScreen({ navigation }) {
+  return (
+    <View style={tw`flex-1 items-center justify-center`}>
+      <Text style={tw`text-lg mb-4`}>Home Screen</Text>
+      <Button
+        title="New note"
+        onPress={() => navigation.navigate('New Note')}
+      />
+    </View>
+  );
+}
 
 
-// const Stack = createNativeStackNavigator();
+function NewNoteScreen() {
+  const noteEditor = useRef();
+  return ( 
+  <TouchableWithoutFeedback onPress={() => noteEditor.current.focus()}>
+  <View style={tw`max-w-full flex-1 items-start justify-start bg-yellow-100 `}>
+  <TextInput
+          ref={noteEditor}
+          style={tw` text-left text-xl p-2`} 
+          multiline
+          placeholder="Type your notes here..."
+        />
+  </View>
+  </TouchableWithoutFeedback>
+        );
+}
+
+const Stack = createNativeStackNavigator();
 
 function App() {
 
@@ -50,43 +57,28 @@ function App() {
     setData(generateData(500));
   }, []);
 
-  const renderItem=({item, i}) => (
-    <Text style={[tw`bg-blue-300 text-gray-500 m-1`, { height: Math.floor(Math.random() * 100) + 50 }]}>
-      {item.id}
-    </Text>
-  )
 
   return (
-    <Provider store={store}>
-      <SafeAreaView style={tw`flex-1 bg-yellow-100`}>
-      {/* <TextInput
-          style={tw`max-w-full mt-4 text-left text-xl border border-gray-500 p-3`}
-          placeholder="Search..."
-        /> */}
-        <TextInput
-          style={tw`max-w-full flex-1 mt-4 text-left text-xl border border-gray-500 p-3`}
-          multiline
-          placeholder="Type your notes here..."
-          
-        />
-        {/* <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
-      </Stack.Navigator>
-    </NavigationContainer> */}
-         <MasonryList 
-      style={tw`w-full h-screen`}
-      data={data}
-      keyExtractor={(item) => item.id}
-      numColumns={3}
-      showsVerticalScrollIndicator={false}
-      renderItem={renderItem}
-      onEndReachedThreshold={0.1}
-    />
+      <SafeAreaView style={def_style.container}>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="New Note" component={NewNoteScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
       </SafeAreaView>
-    </Provider>
+
   )
 }
+// Basic default styling
+const def_style = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  text: {
+    fontSize: 25,
+    fontWeight: '500',
+  },
+});
 
 export default App;
