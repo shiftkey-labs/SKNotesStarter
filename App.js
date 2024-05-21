@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { useState } from 'react';
-import { FlatList, Image, SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import 'react-native-reanimated';
 import { Provider } from 'react-redux';
 import tw, { useDeviceContext } from 'twrnc';
@@ -16,9 +16,9 @@ const data = generateData(0);
 const Stack = createNativeStackNavigator();
 
 //This is the note object. Can be added dynamically
-const Note = ({item, nav}) => {
+const Note = ({item, nav, updateNote}) => {
   return (
-    <TouchableOpacity onPress={() => {nav.navigate('Details', {note : item});}} style = {[tw`w-1/3 aspect-square mb-1 mr-1 p-2 rounded-lg bg-[#2F0082]`]}>
+    <TouchableOpacity onPress={() => {nav.navigate('Details', {note : item, updateNote: updateNote});}} style = {[tw`w-1/3 aspect-square mb-1 mr-1 p-2 rounded-lg bg-[#2F0082]`]}>
       <View>
         <Text style={tw`text-white`}>{item.note}</Text>
       </View>
@@ -28,30 +28,34 @@ const Note = ({item, nav}) => {
 
 
 
-function HomeScreen({navigation}){
-  const [exampleState, setExampleState] = useState(data);
+function HomeScreen({route, navigation}){
+  const [currentData, setData] = useState(data);
   const addNote = () => {
     console.log("Tried adding note xd");
     var note = {id : (data.length + 1).toString(), note : "New note created!!"};
     var newNoteArray = [...data, note]
-    setExampleState(newNoteArray);
+    setData(newNoteArray);
     data.push(note);
   }
-  
+  const updateNote = () => {
+    setData(data);
+  }
+
   return(
     <View style={tw`w-full h-screen flex-1 bg-[#1c004f]`}>
       <FlatList
         style={tw`w-full`}
-        data = {exampleState}
+        data = {data}
         keyExtractor = {(item) => item.id}
-        renderItem = {({item}) => <Note item={item} nav={navigation}/>}
+        renderItem = {({item}) => <Note item={item} nav={navigation} updateNote={updateNote} />}
         numColumns = {3}
+        extraData={data}
         contentContainerStyle={tw`p-4`}
       />
       <TouchableOpacity style={tw`items-center justify-center pb-3`} onPress={addNote}>
         <Image
           source = {require('./assets/add.png')}
-          style={tw`w-10 h-10`}
+          style={tw`w-20 h-17`}
         />
       </TouchableOpacity>
     </View>
@@ -59,21 +63,23 @@ function HomeScreen({navigation}){
 }
 
 function DetailsScreen({route, navigation}){
-  console.log(route.note);
-  const {note} = route.params;
-  const [text, setText] = useState('');
+  
+  const {note, updateNote} = route.params;
+  
+  const [text, setText] = useState(note.note);
   saveNote = () => {
-    console.log(text);
     note.note = text;
+    console.log(data);
+    updateNote();
   }
 
   return(
-    <View style={tw`flex-1 bg-[#2F0082] p-2`}>
-      <TextInput style={tw`text-lg text-white bg-[#3d00a9]`} multiline={true} onChangeText={text => setText(text)} placeholder='Type here'>{note.note}</TextInput>
-      <TouchableOpacity style={tw`items-center`} onPress={saveNote}>
+    <ScrollView style={tw`flex-1 bg-[#2F0082] p-2 h-screen`} automaticallyAdjustKeyboardInsets={true}>
+      <TextInput style={tw`text-white bg-[#3d00a9] w-full`} multiline={true} onChangeText={text => setText(text)} placeholder='Type here'>{note.note}</TextInput>
+      <TouchableOpacity style={tw`items-center pt-5`} onPress={saveNote}>
         <Text style={tw`font-bold text-white`}>SAVE NOTE</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 }
 
