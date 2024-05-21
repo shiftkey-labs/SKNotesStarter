@@ -1,11 +1,8 @@
-import { useEffect } from "react";
 import { View, TextInput } from "react-native";
 import tw from "twrnc";
 
 function NoteScreen({ navigation, route }) {
   const { data } = route.params;
-
-  useEffect(() => navigation.setOptions({ title: "" }));
 
   return (
     <View style={tw`w-full h-full bg-gray-900 p-2`}>

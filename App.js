@@ -7,6 +7,7 @@ import { store } from "./store";
 import "react-native-reanimated";
 import HomeScreen from "./components/HomeScreen";
 import NoteScreen from "./components/NoteScreen";
+import { delNoteBtn } from "./components/Note";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,12 +27,16 @@ function App() {
         <NavigationContainer>
           <Stack.Navigator initialRouteName="HomePage">
             <Stack.Screen
-              options={navStyle}
+              options={{ ...navStyle, headerTitle: "Notes" }}
               name="HomePage"
               component={HomeScreen}
             />
             <Stack.Screen
-              options={navStyle}
+              options={{
+                ...navStyle,
+                headerTitle: "",
+                headerRight: delNoteBtn,
+              }}
               name="NotePage"
               component={NoteScreen}
             />

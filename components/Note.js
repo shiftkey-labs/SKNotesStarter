@@ -1,4 +1,5 @@
-/** Class representing a Note */
+import { Text, TouchableOpacity } from "react-native";
+
 export default class Note {
   /**
    * Class to hold note data
@@ -10,4 +11,17 @@ export default class Note {
     this.title = title;
     this.content = content;
   }
+}
+
+export function delNoteBtn() {
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        null;
+      }}
+    >
+      {/* wastebasket emoji */}
+      <Text>&#128465;</Text>
+    </TouchableOpacity>
+  );
 }
