@@ -2,11 +2,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { useState } from 'react';
-import { FlatList, Image, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, Image, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import 'react-native-reanimated';
 import { Provider } from 'react-redux';
 import tw, { useDeviceContext } from 'twrnc';
-import { useAddNoteMutation, useDeleteNoteMutation, useFetchNotesQuery } from './db';
+import { useAddNoteMutation, useDeleteNoteMutation, useFetchNotesQuery, useUpdateNoteMutation } from './db';
 import { store } from './store';
 
 //Daniel Flemming
@@ -33,29 +33,43 @@ function HomeScreen({route, navigation}){
   
   const [addNote] = useAddNoteMutation();
   const [deleteNote] = useDeleteNoteMutation();
-  const {data} = useFetchNotesQuery();
+  const {data, error, isLoading} = useFetchNotesQuery();
   
   const deleteAllNotes = async () => {
     for(const note of data){
       for(const item of note){
-        console.log(item);
         await deleteNote({id : item.id});
       }
     }
   }
   
+  if(isLoading){
+    return(
+      <View style={tw`flex-1 justify-center items-center`}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
+  if(error){
+    return(
+      <View style={tw`flex-1 justify-center items-center`}>
+        <Text style={tw`text-white`}>Failed to load notes</Text>
+      </View>
+    );
+  }
 
   return(
     <View style={tw`w-full h-screen flex-1 bg-[#1c004f]`}>
       <FlatList
         style={tw`w-full`}
-        data = {data}
+        data = {data[0]}
         keyExtractor = {(item) => item.id}
         renderItem = {({item}) => <Note item={item} nav={navigation}/>}
         numColumns = {3}
         contentContainerStyle={tw`p-4`}
       />
-      <TouchableOpacity style={tw`items-center justify-center pb-3`} onPress={async () => {await addNote({content: "New note created!!"}); console.log(data)}}>
+      <TouchableOpacity style={tw`items-center justify-center pb-3`} onPress={async () => {await addNote({content: "Tap to edit"}); console.log(data)}}>
         <Image
           source = {require('./assets/add.png')}
           style={tw`w-20 h-17`}
@@ -73,18 +87,18 @@ function HomeScreen({route, navigation}){
 
 function DetailsScreen({route, navigation}){
   
-  const {note, updateNote} = route.params;
-  
-  const [text, setText] = useState(note.note);
+  const [updateNote] = useUpdateNoteMutation();
+  const {note} = route.params;
+  const [text, setText] = useState(note.content);
   saveNote = () => {
-    note.note = text;
-    console.log(data);
-    updateNote();
+    console.log(text);
+    updateNote({id : note.id, content : text});
   }
+
 
   return(
     <ScrollView style={tw`flex-1 bg-[#2F0082] p-2 h-screen`} automaticallyAdjustKeyboardInsets={true}>
-      <TextInput style={tw`text-white bg-[#3d00a9] w-full`} multiline={true} onChangeText={text => setText(text)} placeholder='Type here'>{note.note}</TextInput>
+      <TextInput style={tw`text-white bg-[#3d00a9] w-full`} multiline={true} onChangeText={text => setText(text)} placeholder='Type here'>{note.content}</TextInput>
       <TouchableOpacity style={tw`items-center pt-5`} onPress={saveNote}>
         <Text style={tw`font-bold text-white`}>SAVE NOTE</Text>
       </TouchableOpacity>
