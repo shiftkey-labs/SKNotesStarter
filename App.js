@@ -30,20 +30,10 @@ const Note = ({item, nav}) => {
 }
 
 function HomeScreen({route, navigation}){
-  
   const [addNote] = useAddNoteMutation();
-  const [deleteNote] = useDeleteNoteMutation();
   const {data, error, isLoading} = useFetchNotesQuery();
   const [text, setText] = useState("");
   const {data : filteredData, isLoading : searchNotesLoading} = useSearchNotesQuery(""+text);
-  
-  const deleteAllNotes = async () => {
-    for(const note of data){
-      for(const item of note){
-        await deleteNote({id : item.id});
-      }
-    }
-  }
   
   if(isLoading || searchNotesLoading){
     return(
@@ -65,7 +55,7 @@ function HomeScreen({route, navigation}){
     <View style={tw`w-full h-screen flex-1 bg-[#1c004f]`}>
       <View style={tw`items-center border-b-2 border-white pb-5`}>
         <Text style={tw`justify-center text-white font-bold pb-3 pt-5`}>Search/Quick add</Text>
-        <TextInput style={tw`w-4/5 h-6 bg-[#2F0082]`} placeholder='Type here...' onChangeText={(text) => {setText(text)}}></TextInput>
+        <TextInput style={tw`w-4/5 h-6 bg-[#2F0082] text-white`} placeholder='Type here...' onChangeText={(text) => {setText(text)}}></TextInput>
       </View>
       <FlatList
         style={tw`w-full`}
@@ -75,16 +65,10 @@ function HomeScreen({route, navigation}){
         numColumns = {3}
         contentContainerStyle={tw`p-4`}
       />
-      <TouchableOpacity style={tw`items-center justify-center pb-3`} onPress={async () => {await addNote({title : " ", content: ""+text}); console.log(data)}}>
+      <TouchableOpacity style={tw`items-center justify-center pb-3`} onPress={async () => {await addNote({title : " ", content: ""+text});}}>
         <Image
           source = {require('./assets/add.png')}
-          style={tw`w-20 h-17`}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity style={tw`items-center justify-center pb-3`} onPress={async () => {await deleteAllNotes(); console.log(data)}}>
-        <Image
-          source = {require('./assets/add.png')}
-          style={tw`w-10 h-10`}
+          style={tw`w-15 h-15`}
         />
       </TouchableOpacity>
     </View>
@@ -92,13 +76,31 @@ function HomeScreen({route, navigation}){
 }
 
 function DetailsScreen({route, navigation}){
-  
   const [updateNote] = useUpdateNoteMutation();
   const {note} = route.params;
   const [text, setText] = useState(note.content);
+  const [deleteNote] = useDeleteNoteMutation();
+  const deleteThisNote = () => {
+    deleteNote(note);
+    navigation.popToTop();
+  }
+  React.useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigation.setOptions({
+      headerRight: () => 
+      <TouchableOpacity style={tw`items-center justify-center pb-3`} onPress={deleteThisNote}>
+        <Image
+          source = {require('./assets/delete.png')}
+          style={tw`w-10 h-10`}
+        />
+      </TouchableOpacity>
+    });
+  }, [navigation]);
+
   saveNote = () => {
-    console.log(text);
     updateNote({id : note.id, content : text, title : " "});
+    navigation.popToTop();
   }
 
 
@@ -119,8 +121,14 @@ function App() {
       <SafeAreaView style={tw`w-full h-screen`}>
       <NavigationContainer>
           <Stack.Navigator screenOptions={{headerStyle: {backgroundColor : '#120033'}, headerTitleStyle: {color: 'white'} }} initialRouteName="Home">
-            <Stack.Screen name="Home" component={HomeScreen}/>
-            <Stack.Screen name="Details" component={DetailsScreen} options={{ headerTintColor: '#ffffff'}}/>
+            <Stack.Screen name="Home" component={HomeScreen} options={{headerShadowVisible:false}}/>
+            <Stack.Screen name="Details" component={DetailsScreen} options={{ headerRight: () => 
+            <TouchableOpacity style={tw`items-center justify-center pb-3`}>
+              <Image
+                source = {require('./assets/delete.png')}
+                style={tw`w-10 h-10`}
+              />
+          </TouchableOpacity>, headerShadowVisible:false, headerTintColor: '#ffffff'}}/>
           </Stack.Navigator>
       </NavigationContainer>
       </SafeAreaView>
