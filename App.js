@@ -6,40 +6,44 @@ import { FlatList, Image, SafeAreaView, ScrollView, Text, TextInput, TouchableOp
 import 'react-native-reanimated';
 import { Provider } from 'react-redux';
 import tw, { useDeviceContext } from 'twrnc';
+import { useAddNoteMutation, useDeleteNoteMutation, useFetchNotesQuery } from './db';
 import { store } from './store';
 
 //Daniel Flemming
 
-const generateData = (count) => Array.from({length : count}, (_, i) => ({id : (i + 1).toString(), note : "Note number " + (i+1).toString()}));
-const data = generateData(0);
+//const generateData = (count) => Array.from({length : count}, (_, i) => ({id : (i + 1).toString(), note : "Note number " + (i+1).toString()}));
+//const data = generateData(0);
 
 const Stack = createNativeStackNavigator();
 
+
+
 //This is the note object. Can be added dynamically
-const Note = ({item, nav, updateNote}) => {
+const Note = ({item, nav}) => {
   return (
-    <TouchableOpacity onPress={() => {nav.navigate('Details', {note : item, updateNote: updateNote});}} style = {[tw`w-1/3 aspect-square mb-1 mr-1 p-2 rounded-lg bg-[#2F0082]`]}>
+    <TouchableOpacity onPress={() => {nav.navigate('Details', {note : item});}} style = {[tw`w-1/3 aspect-square mb-1 mr-1 p-2 rounded-lg bg-[#2F0082]`]}>
       <View>
-        <Text style={tw`text-white`}>{item.note}</Text>
+        <Text style={tw`text-white`}>{item.content}</Text>
       </View>
     </TouchableOpacity>
   );
 }
 
-
-
 function HomeScreen({route, navigation}){
-  const [currentData, setData] = useState(data);
-  const addNote = () => {
-    console.log("Tried adding note xd");
-    var note = {id : (data.length + 1).toString(), note : "New note created!!"};
-    var newNoteArray = [...data, note]
-    setData(newNoteArray);
-    data.push(note);
+  
+  const [addNote] = useAddNoteMutation();
+  const [deleteNote] = useDeleteNoteMutation();
+  const {data} = useFetchNotesQuery();
+  
+  const deleteAllNotes = async () => {
+    for(const note of data){
+      for(const item of note){
+        console.log(item);
+        await deleteNote({id : item.id});
+      }
+    }
   }
-  const updateNote = () => {
-    setData(data);
-  }
+  
 
   return(
     <View style={tw`w-full h-screen flex-1 bg-[#1c004f]`}>
@@ -47,15 +51,20 @@ function HomeScreen({route, navigation}){
         style={tw`w-full`}
         data = {data}
         keyExtractor = {(item) => item.id}
-        renderItem = {({item}) => <Note item={item} nav={navigation} updateNote={updateNote} />}
+        renderItem = {({item}) => <Note item={item} nav={navigation}/>}
         numColumns = {3}
-        extraData={data}
         contentContainerStyle={tw`p-4`}
       />
-      <TouchableOpacity style={tw`items-center justify-center pb-3`} onPress={addNote}>
+      <TouchableOpacity style={tw`items-center justify-center pb-3`} onPress={async () => {await addNote({content: "New note created!!"}); console.log(data)}}>
         <Image
           source = {require('./assets/add.png')}
           style={tw`w-20 h-17`}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity style={tw`items-center justify-center pb-3`} onPress={async () => {await deleteAllNotes(); console.log(data)}}>
+        <Image
+          source = {require('./assets/add.png')}
+          style={tw`w-10 h-10`}
         />
       </TouchableOpacity>
     </View>
@@ -88,12 +97,12 @@ function App() {
   return (
     <Provider store={store}>
       <SafeAreaView style={tw`w-full h-screen`}>
-        <NavigationContainer>
+      <NavigationContainer>
           <Stack.Navigator screenOptions={{headerStyle: {backgroundColor : '#120033'}, headerTitleStyle: {color: 'white'} }} initialRouteName="Home">
             <Stack.Screen name="Home" component={HomeScreen}/>
             <Stack.Screen name="Details" component={DetailsScreen} options={{ headerTintColor: '#ffffff'}}/>
           </Stack.Navigator>
-        </NavigationContainer>
+      </NavigationContainer>
       </SafeAreaView>
     </Provider>
   );
