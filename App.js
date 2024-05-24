@@ -6,7 +6,7 @@ import { ActivityIndicator, FlatList, Image, SafeAreaView, ScrollView, Text, Tex
 import 'react-native-reanimated';
 import { Provider } from 'react-redux';
 import tw, { useDeviceContext } from 'twrnc';
-import { useAddNoteMutation, useDeleteNoteMutation, useFetchNotesQuery, useUpdateNoteMutation } from './db';
+import { useAddNoteMutation, useDeleteNoteMutation, useFetchNotesQuery, useSearchNotesQuery, useUpdateNoteMutation } from './db';
 import { store } from './store';
 
 //Daniel Flemming
@@ -34,6 +34,8 @@ function HomeScreen({route, navigation}){
   const [addNote] = useAddNoteMutation();
   const [deleteNote] = useDeleteNoteMutation();
   const {data, error, isLoading} = useFetchNotesQuery();
+  const [text, setText] = useState("");
+  const {data : filteredData, isLoading : searchNotesLoading} = useSearchNotesQuery(""+text);
   
   const deleteAllNotes = async () => {
     for(const note of data){
@@ -43,7 +45,7 @@ function HomeScreen({route, navigation}){
     }
   }
   
-  if(isLoading){
+  if(isLoading || searchNotesLoading){
     return(
       <View style={tw`flex-1 justify-center items-center`}>
         <ActivityIndicator size="large" color="#0000ff" />
@@ -61,15 +63,19 @@ function HomeScreen({route, navigation}){
 
   return(
     <View style={tw`w-full h-screen flex-1 bg-[#1c004f]`}>
+      <View style={tw`items-center border-b-2 border-white pb-5`}>
+        <Text style={tw`justify-center text-white font-bold pb-3 pt-5`}>Search/Quick add</Text>
+        <TextInput style={tw`w-4/5 h-6 bg-[#2F0082]`} placeholder='Type here...' onChangeText={(text) => {setText(text)}}></TextInput>
+      </View>
       <FlatList
         style={tw`w-full`}
-        data = {data[0]}
+        data = {filteredData}
         keyExtractor = {(item) => item.id}
         renderItem = {({item}) => <Note item={item} nav={navigation}/>}
         numColumns = {3}
         contentContainerStyle={tw`p-4`}
       />
-      <TouchableOpacity style={tw`items-center justify-center pb-3`} onPress={async () => {await addNote({content: "Tap to edit"}); console.log(data)}}>
+      <TouchableOpacity style={tw`items-center justify-center pb-3`} onPress={async () => {await addNote({title : " ", content: ""+text}); console.log(data)}}>
         <Image
           source = {require('./assets/add.png')}
           style={tw`w-20 h-17`}
@@ -92,7 +98,7 @@ function DetailsScreen({route, navigation}){
   const [text, setText] = useState(note.content);
   saveNote = () => {
     console.log(text);
-    updateNote({id : note.id, content : text});
+    updateNote({id : note.id, content : text, title : " "});
   }
 
 
