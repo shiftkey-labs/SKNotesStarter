@@ -1,7 +1,7 @@
 import tw from "twrnc";
 import { Text, TouchableOpacity } from "react-native";
 
-function Card({ note, navigation }) {
+function Card({ navigation, note }) {
   return (
     <TouchableOpacity
       style={tw`m-0.5 rounded-lg p-2 bg-gray-700`}
