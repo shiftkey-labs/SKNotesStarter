@@ -5,24 +5,8 @@ import MasonryList from "@react-native-seoul/masonry-list";
 import Card from "./NoteCard";
 import Note from "./Note";
 
-const generateData = (count) =>
-  Array.from(
-    { length: count },
-    (_, i) =>
-      new Note(
-        `Note ${i + 1}`,
-        `These are the contents of Note ${
-          i + 1
-        }. There isn't much here for now, but we'll get there eventually.`
-      )
-  );
-
 function HomeScreen({ navigation }) {
   const [data, setData] = useState([]);
-
-  useEffect(() => {
-    setData(generateData(16));
-  }, []);
 
   const renderItem = ({ item, idx }) => (
     <Card note={item} navigation={navigation} />
