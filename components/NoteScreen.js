@@ -1,7 +1,7 @@
 import { View, TextInput } from "react-native";
 import tw from "twrnc";
 
-function NoteScreen({ navigation, route }) {
+function NoteScreen({ route, navigation }) {
   const { data } = route.params;
 
   return (
