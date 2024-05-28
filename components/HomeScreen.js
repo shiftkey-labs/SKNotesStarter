@@ -49,14 +49,14 @@ function HomeScreen({ navigation }) {
       />
       {/* Add Note Button */}
       <TouchableOpacity
-        style={tw`absolute bottom-10 right-5 rounded-full bg-blue-500 py-3 px-4.75`}
         onPress={() =>
           navigation.navigate("NotePage", {
             data: new Note(),
           })
         }
+        style={tw`bg-blue-500 rounded-full absolute bottom-[5%] right-8 mx-auto items-center flex-1 justify-center w-12 h-12`}
       >
-        <Text style={tw`text-white text-4xl`}>+</Text>
+        <Text style={tw`text-white text-center text-3xl mt--1`}>+</Text>
       </TouchableOpacity>
     </View>
   );
