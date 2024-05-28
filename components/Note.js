@@ -1,4 +1,5 @@
 import { Text, TouchableOpacity } from "react-native";
+import tw from "twrnc";
 
 export default class Note {
   /**
@@ -16,12 +17,13 @@ export default class Note {
 export function delNoteBtn() {
   return (
     <TouchableOpacity
+      style={tw`mr-4`}
       onPress={() => {
         null;
       }}
     >
       {/* wastebasket emoji */}
-      <Text>&#128465;</Text>
+      <Text style={tw`text-3xl`}>&#128465;</Text>
     </TouchableOpacity>
   );
 }
