@@ -4,7 +4,6 @@ import { View, TextInput, TouchableOpacity, Text } from "react-native";
 import MasonryList from "@react-native-seoul/masonry-list";
 import { useAddNoteMutation, useSearchNotesQuery } from "../db";
 import Card from "./NoteCard";
-import Note from "./Note";
 
 function HomeScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -44,7 +43,7 @@ function HomeScreen({ navigation }) {
       )}
       {/* Add Note Button */}
       <TouchableOpacity
-        onPress={() => addNote(new Note())}
+        onPress={() => addNote({ title: "", content: "" })}
         style={tw`bg-blue-500 rounded-full absolute bottom-[5%] right-8 mx-auto items-center flex-1 justify-center w-12 h-12`}
       >
         <Text style={tw`text-white text-center text-3xl mt--1`}>+</Text>
