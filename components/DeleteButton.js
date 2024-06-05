@@ -8,8 +8,8 @@ function DeleteButton({ navigation, note }) {
   return (
     <TouchableOpacity
       onPress={() => {
-        deleteNote(note);
         navigation.popToTop();
+        deleteNote(note);
       }}
     >
       {/* wastebasket emoji */}
