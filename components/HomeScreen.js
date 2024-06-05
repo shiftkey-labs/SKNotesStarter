@@ -9,17 +9,14 @@ import Note from "./Note";
 function HomeScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
   const { data: searchData } = useSearchNotesQuery(searchQuery);
-  const [addNote, { data: addNoteData, error: addNoteError }] =
-    useAddNoteMutation();
+  const [addNote, { data: addNoteData }] = useAddNoteMutation();
   useEffect(() => {
     if (addNoteData != undefined) {
       navigation.navigate("NotePage", { data: addNoteData });
     }
   }, [addNoteData]);
 
-  const renderItem = ({ item, idx }) => (
-    <Card note={item} navigation={navigation} />
-  );
+  const renderItem = ({ item }) => <Card note={item} navigation={navigation} />;
 
   return (
     <View style={tw`w-full h-full bg-gray-800`}>
