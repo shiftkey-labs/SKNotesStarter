@@ -14,7 +14,7 @@ function App() {
   useDeviceContext(tw);
 
   const navStyle = {
-    headerStyle: tw`bg-gray-900 border-none border-0`,
+    headerStyle: tw`bg-gray-900 border-0`,
     headerTintColor: "white",
     headerTitleStyle: tw`font-bold`,
     headerShadowVisible: false, // gets rid of border on device
