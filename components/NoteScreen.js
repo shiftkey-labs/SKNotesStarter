@@ -14,7 +14,10 @@ function NoteScreen({ navigation, route }) {
   }, [data]);
 
   return (
-    <View style={tw`w-full h-full bg-gray-900 p-2`}>
+    <View
+      style={tw`w-full h-full bg-gray-900 p-2`}
+      onLayout={() => this.input.focus()}
+    >
       <TextInput
         style={tw`text-white text-lg font-bold mb-4`}
         placeholderTextColor="gray"
@@ -29,6 +32,9 @@ function NoteScreen({ navigation, route }) {
         defaultValue={data.content}
         multiline={true}
         onChangeText={(text) => setData({ ...data, content: text })}
+        ref={(input) => {
+          this.input = input;
+        }}
       />
     </View>
   );
