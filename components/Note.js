@@ -1,5 +1,6 @@
 import { Text, TouchableOpacity } from "react-native";
 import tw from "twrnc";
+import { useDeleteNoteMutation } from "../db";
 
 export default class Note {
   /**
@@ -9,17 +10,19 @@ export default class Note {
    * @param {string} content - The text content of the note.
    */
   constructor(title, content) {
-    this.title = title;
-    this.content = content;
+    this.title = title || "";
+    this.content = content || "";
   }
 }
 
-export function delNoteBtn() {
+export function delNoteBtn(navigation, note) {
+  const [deleteNote] = useDeleteNoteMutation();
+
   return (
     <TouchableOpacity
-      style={tw`mr-4`}
       onPress={() => {
-        null;
+        deleteNote(note);
+        navigation.navigate("HomePage");
       }}
     >
       {/* wastebasket emoji */}
