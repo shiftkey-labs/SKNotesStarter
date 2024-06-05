@@ -9,14 +9,16 @@ function NoteScreen({ navigation, route }) {
   const [deleteNote] = useDeleteNoteMutation();
   const [updateNote] = useUpdateNoteMutation();
 
+  // update note in DB as it is modified
   useEffect(() => {
-    // update note in DB as it is modified
     updateNote(data);
     navigation.setOptions({
       headerRight: () => <DeleteButton navigation={navigation} note={data} />,
     });
+  }, [data]);
 
-    // remove the note if it is empty when leaving edit screen
+  // remove the note if it is empty when leaving edit screen
+  useEffect(() => {
     navigation.addListener("beforeRemove", (_event) => {
       updateNote(data);
       if (data.title === "" && data.content === "") {
