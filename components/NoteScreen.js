@@ -19,7 +19,6 @@ function NoteScreen({ navigation, route }) {
     // remove the note if it is empty when leaving edit screen
     navigation.addListener("beforeRemove", (_event) => {
       updateNote(data);
-      console.log(data);
       if (data.title === "" && data.content === "") {
         deleteNote(data);
       }
