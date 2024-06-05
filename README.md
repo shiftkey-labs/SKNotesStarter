@@ -20,7 +20,7 @@ Minimalistic Notes app made in React Native
     npm run start
     ```
 
-- open **Expo Go** app on phone and scan generated QR code
+- open [**Expo Go**](<https://expo.dev/go>) app on phone and scan generated QR code
 
 ## Credits
 
