@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { View, TextInput } from "react-native";
 import tw from "twrnc";
 import { useUpdateNoteMutation } from "../db";
-import { delNoteBtn } from "./Note";
+import DeleteButton from "./DeleteButton";
 
 function NoteScreen({ navigation, route }) {
   const [data, setData] = useState(route.params.data);
@@ -10,7 +10,9 @@ function NoteScreen({ navigation, route }) {
 
   useEffect(() => {
     updateNote(data);
-    navigation.setOptions({ headerRight: () => delNoteBtn(navigation, data) });
+    navigation.setOptions({
+      headerRight: () => <DeleteButton navigation={navigation} note={data} />,
+    });
   }, [data]);
 
   return (
